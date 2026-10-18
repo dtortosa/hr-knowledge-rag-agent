@@ -1,10 +1,10 @@
 # Corporate HR Policy Retrieval Prototype (RAG)
 
-A notebook-driven Retrieval-Augmented Generation (RAG) prototype for experimenting with text processing, vector similarity search, and dynamic prompt injection in LangChain.
+Project from the Applied Generative AI Specialization (Purdue University, 2025). A notebook-driven Retrieval-Augmented Generation (RAG) prototype for experimenting with text processing, vector similarity search, and conditional prompt templating in LangChain.
 
 The notebook walks through building a document-grounded question-answering system step by step, using a corporate policy handbook (Nestlé's HR guidelines) as the knowledge base.
 
-## 🛠️ System Architecture & Workflow
+## 🛠️ Workflow
 
 The whole pipeline lives in one notebook and runs end to end:
 
@@ -12,8 +12,12 @@ The whole pipeline lives in one notebook and runs end to end:
 2. **Chunking:** Splits the text with a `RecursiveCharacterTextSplitter` set to a 150-character limit, with fallback separators (including lookbehind regular expressions for sentence boundaries) so chunks break on natural boundaries instead of mid-sentence.
 3. **Vectorization & storage:** Turns the chunks into embeddings with `OpenAIEmbeddings` and indexes them in a local, disk-backed `Chroma` vector store.
 4. **Retrieval:** Builds a LangChain `RetrievalQA` chain with the "stuff" document layout, which packs the retrieved chunks straight into the model prompt.
-5. **Prompt templating with Jinja2:** Renders the prompt from an external Jinja2 template (`prompt_template.jinja2`). A conditional check catches specific topics (for example, parental or maternal leave questions) and adds relevant external web links before the prompt is sent to the model.
+5. **Prompt templating with Jinja2:** Renders the prompt from an external Jinja2 template (`prompt_template.jinja2`). A conditional check catches specific topics (for example, parental or maternal leave questions) and adds relevant external links to the prompt before it is sent to the model.
 6. **Interface (Gradio):** Wraps the retrieval and generation steps in a small `Gradio` UI for testing prompts, watching latency, and debugging by hand.
+
+## ⚠️ Limitations
+
+This is a learning prototype: answers were checked manually, without a systematic evaluation set or retrieval metrics.
 
 ## 📂 Repository Layout
 
@@ -28,6 +32,6 @@ The whole pipeline lives in one notebook and runs end to end:
 
 * **Framework:** LangChain
 * **Vector Store:** ChromaDB
-* **Embeddings & LLM:** OpenAI API
+* **Embeddings & LLM:** OpenAI API ([model])
 * **Templating:** Jinja2
 * **Interface:** Gradio
